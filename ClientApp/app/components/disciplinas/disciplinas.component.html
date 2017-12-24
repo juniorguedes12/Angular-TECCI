@@ -1,0 +1,95 @@
+<div style="font-family: monospace">
+    <h1>Disciplinas</h1>
+
+    <p *ngIf="!disciplinas">
+        <em>Carregando...</em>
+    </p>
+
+    <form class="form-inline">
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <label for="campoNome">Nome: </label>
+                <input type="text" name="campoNome" [(ngModel)]="campoNome" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="campoCh">Carga Horaria: </label>
+                <input type="number" name="campoCh" [(ngModel)]="campoCh" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                />
+            </div>
+        </div>
+
+        <div class="dropdown" style="margin-top:20px;">
+            <label for="select">Curso: </label>
+            <select #SelectElem class="form-control" style="width:auto; margin-top:10px" (change)="addCurso(SelectElem.value)" name="select">
+                <option disabled>Selecione um curso</option>
+                <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nome }}</option>
+            </select>
+            <button type="button" (click)="incluir()" class="btn btn-default">Adicionar</button>
+        </div>
+    </form>
+
+    <table class='table' *ngIf="disciplinas">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Carga Horaria</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let disciplina of disciplinas">
+                <td>{{ disciplina.id }}</td>
+                <td>{{ disciplina.nome }}</td>
+                <td>{{ disciplina.ch }}</td>
+                <td>{{ disciplina.curso.nome }}</td>
+
+                <td>
+                    <button type="button" class="btn btn-primary glyphicon glyphicon-trash" (click)="deletar(disciplina)"></button>
+                    <button type="button" class="btn btn-secondary glyphicon glyphicon-refresh" (click)="salvarId(disciplina)"  data-toggle="modal"
+                    data-target="#modalAtualizar"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAtualizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Atualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <label for="campoNomeAtualizar">Nome: </label>
+                    <input type="text" name="campoNomeAtualizar" [(ngModel)]="campoNomeAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="campoChAtualizar">Carga Horaria: </label>
+                    <input type="number" name="campoChAtualizar" [(ngModel)]="campoChAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="selectAtualizar">Curso: </label>
+                    <select #SelectElem2 class="form-control" style="width:auto; margin-top:10px" (change)="addCursoAtualizado(SelectElem2.value)" name="selectAtualizar">
+                        <option disabled>Selecione um curso</option>
+                        <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nome }}</option>
+                    </select>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" (click)="atualizar()" data-dismiss="modal">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

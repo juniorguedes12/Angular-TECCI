@@ -1,0 +1,90 @@
+<div style="font-family: monospace">
+
+    <h1>Matriculas</h1>
+
+    <p *ngIf="!matriculas">
+        <em>Carregando...</em>
+    </p>
+
+    <form class="form-inline">
+        <label for="selectProf">Alunos: </label>
+        <select #SelectElem1 class="form-control" style="width:auto" (change)="addAluno(SelectElem1.value)" name="selectProf">
+            <option disabled>Selecione um aluno</option>
+            <option *ngFor="let aluno of alunos" [value]="aluno.id">{{ aluno.nome }}</option>
+        </select>
+
+        <label for="selectDisc">Turmas: </label>
+        <select #SelectElem2 class="form-control" style="width:auto" (change)="addTurma(SelectElem2.value)" name="selectDisc">
+            <option disabled>Selecione uma Turma</option>
+            <option *ngFor="let turma of turmas" [value]="turma.id">Dia: {{ turma.dia }}, Sala: {{ turma.sala }}, Vagas: {{ turma.vagas }}</option>
+        </select>
+
+        <button type="button" (click)="incluir()" class="btn btn-default">Adicionar</button>
+    </form>
+
+    <table class='table' *ngIf="matriculas">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Aluno</th>
+                <th>Turma - Dia</th>
+                <th>Turma - Sala</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let matricula of matriculas">
+                <td>{{ matricula.id }}</td>
+                <td>{{ matricula.data }}</td>
+                <td>{{ matricula.hora }}</td>
+                <td>{{ matricula.aluno.nome }}</td>
+                <td>{{ matricula.turma.dia }}</td>
+                <td>{{ matricula.turma.sala }}</td>
+
+                <td>
+                    <button type="button" class="btn btn-primary glyphicon glyphicon-trash" (click)="deletar(matricula)"></button>
+                    <button type="button" class="btn btn-secondary glyphicon glyphicon-refresh" (click)="atualizarId(matricula)" data-toggle="modal"
+                        data-target="#modalAtualizar"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAtualizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Atualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+
+                    <label for="selectProfAtualizar">Alunos: </label>
+                    <select #SelectElem3 class="form-control" style="width:auto; margin-top:10px" (change)="addAluno2(SelectElem3.value)" name="selectProfAtualizar">
+                        <option disabled>Selecione um aluno</option>
+                        <option *ngFor="let aluno of alunos" [value]="aluno.id">{{ aluno.nome }}</option>
+                    </select>
+
+                    <label for="selectDiscAtualizar">Turmas: </label>
+                    <select #SelectElem4 class="form-control" style="width:auto; margin-top:10px" (change)="addTurma2(SelectElem4.value)" name="selectDiscAtualizar">
+                        <option disabled>Selecione uma Turma</option>
+                        <option *ngFor="let turma of turmas" [value]="turma.id">Dia: {{ turma.dia }}, Sala: {{ turma.sala }}, Vagas: {{ turma.vagas }}</option>
+                    </select>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" (click)="atualizar()" data-dismiss="modal">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

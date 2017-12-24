@@ -1,0 +1,127 @@
+<div style="font-family: monospace">
+
+    <h1>Alunos</h1>
+
+    <p *ngIf="!alunos">
+        <em>Carregando...</em>
+    </p>
+
+    <form class="form-inline">
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <label for="campoNome">Nome: </label>
+                <input type="text" name="campoNome" [(ngModel)]="campoNome" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="campoEnd">Endereço: </label>
+                <input type="text" name="campoEnd" [(ngModel)]="campoEnd" class="form-control" style="width:auto; margin-top:10px"
+                />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <label for="campoEmail">e-mail: </label>
+                <input type="email" name="campoEmail" [(ngModel)]="campoEmail" class="form-control" style="width:auto; margin-top:10px"
+                />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="campoFone">Fone: </label>
+                <input type="number" name="campoFone" [(ngModel)]="campoFone" class="form-control" style="width:auto; margin-left:16px; margin-top:10px"
+                />
+            </div>
+        </div>
+
+        <div class="dropdown" style="margin-top:20px;">
+            <label for="">Cidade: </label>
+            <select #SelectElem class="form-control" style="width:auto" (change)="addCidade(SelectElem.value)">
+                <option disabled>Selecione uma cidade</option>
+                <option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</option>
+            </select>
+
+            <button type="button" (click)="incluir()" class="btn btn-default">Adicionar</button>
+        </div>
+
+    </form>
+
+    <table class='table' *ngIf="alunos">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>e-mail</th>
+                <th>Telefone</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let aluno of alunos">
+                <td>{{ aluno.id }}</td>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.endereco }}</td>
+                <td>{{ aluno.email }}</td>
+                <td>{{ aluno.fone }}</td>
+                <td>{{ aluno.cidade.nome }}</td>
+                <td>{{ aluno.cidade.estado.nome }}</td>
+
+                <td>
+                    <button type="button" class="btn btn-primary glyphicon glyphicon-trash" (click)="deletar(aluno)"></button>
+                    <button type="button" class="btn btn-secondary glyphicon glyphicon-refresh" (click)="atualizarId(aluno)" data-toggle="modal" data-target="#modalAtualizar" 
+                    ></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAtualizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Atualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+
+
+                    <label for="campoNomeAtualizar">Nome: </label>
+                    <input type="text" name="campoNomeAtualizar" [(ngModel)]="campoNomeAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="campoEndAtualizar">Endereço: </label>
+                    <input type="text" name="campoEndAtualizar" [(ngModel)]="campoEndAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="campoEmailAtualizar">e-mail: </label>
+                    <input type="email" name="campoEmailAtualizar" [(ngModel)]="campoEmailAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="campoFoneAtualizar">Fone: </label>
+                    <input type="number" name="campoFoneAtualizar" [(ngModel)]="campoFoneAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+
+                    <label for="">Cidade: </label>
+                    <select #SelectElem2 class="form-controlAtualizar" style="width:auto; margin-top:10px" (change)="addCidade2(SelectElem2.value)">
+                        <option disabled>Selecione uma cidade</option>
+                        <option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</option>
+                    </select>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" (click)="atualizar()" data-dismiss="modal">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

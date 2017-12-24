@@ -1,0 +1,129 @@
+<div style="font-family: monospace">
+    <h1>Turmas</h1>
+
+    <p *ngIf="!turmas">
+        <em>Carregando...</em>
+    </p>
+
+    <form class="form-inline">
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <label for="campoDia">Dia: </label>
+                <input type="number" name="campoDia" [(ngModel)]="campoDia" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="campoSala">Sala: </label>
+                <input type="text" name="campoSala" [(ngModel)]="campoSala" class="form-control" style="width:auto; margin-left:10px ;margin-top:10px"
+                />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="campoVagas">Vagas: </label>
+                <input type="number" name="campoVagas" [(ngModel)]="campoVagas" class="form-control" style="width:auto; margin-top:10px"
+                />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6 col-md-4">
+                <label for="selectProf">Professores: </label>
+                <select #SelectElem1 class="form-control" style="width:auto; margin-top:10px" (change)="addProfessor(SelectElem1.value)"
+                    name="selectProf">
+                    <option disabled>Selecione um professor</option>
+                    <option *ngFor="let professor of professores" [value]="professor.id">{{ professor.nome }}</option>
+                </select>
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <label for="selectDisc">Disciplinas: </label>
+                <select #SelectElem2 class="form-control" style="width:auto; margin-top:10px" (change)="addDisciplina(SelectElem2.value)"
+                    name="selectDisc">
+                    <option disabled>Selecione uma Disciplina</option>
+                    <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{ disciplina.nome }}</option>
+                </select>
+            </div>
+
+            <div class="col-xs-6 col-md-4">
+                <button type="button" (click)="incluir()" class="btn btn-default" style="margin-top:10px">Adicionar</button>
+            </div>
+        </div>
+
+       
+    </form>
+
+    <table class='table' *ngIf="turmas">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Dia</th>
+                <th>Sala</th>
+                <th>Vagas</th>
+                <th>Professor</th>
+                <th>Disciplina</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let turma of turmas">
+                <td>{{ turma.id }}</td>
+                <td>{{ turma.dia }}</td>
+                <td>{{ turma.sala }}</td>
+                <td>{{ turma.vagas }}</td>
+                <td>{{ turma.professor.nome }}</td>
+                <td>{{ turma.disciplina.nome }}</td>
+
+                <td>
+                    <button type="button" class="btn btn-primary glyphicon glyphicon-trash" (click)="deletar(turma)"></button>
+                    <button type="button" class="btn btn-secondary glyphicon glyphicon-refresh" (click)="atualizarId(turma)" data-toggle="modal"
+                    data-target="#modalAtualizar"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAtualizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Atualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+                    <label for="campoDiaAtualizar">Dia: </label>
+                    <input type="number" name="campoDiaAtualizar" [(ngModel)]="campoDiaAtualizar" class="form-control" style="width:auto; margin-left:15px; margin-top:10px"
+                    />
+              
+                    <label for="campoSalaAtualizar">Sala: </label>
+                    <input type="text" name="campoSalaAtualizar" [(ngModel)]="campoSalaAtualizar" class="form-control" style="width:auto; margin-left:10px ;margin-top:10px"
+                    />
+            
+                    <label for="campoVagasAtualizar">Vagas: </label>
+                    <input type="number" name="campoVagasAtualizar" [(ngModel)]="campoVagas" class="form-control" style="width:auto; margin-top:10px"
+                    />
+
+                    <label for="selectProfAtualizar">Professores: </label>
+                    <select #SelectElem3 class="form-control" style="width:auto; margin-top:10px" (change)="addProfessor2(SelectElem3.value)"
+                        name="selectProfAtualizar">
+                        <option disabled>Selecione um professor</option>
+                        <option *ngFor="let professor of professores" [value]="professor.id">{{ professor.nome }}</option>
+                    </select>
+
+                    <label for="selectDiscAtualizar">Disciplinas: </label>
+                    <select #SelectElem4 class="form-control" style="width:auto; margin-top:10px" (change)="addDisciplina2(SelectElem4.value)"
+                        name="selectDiscAtualizar">
+                        <option disabled>Selecione uma Disciplina</option>
+                        <option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{ disciplina.nome }}</option>
+                    </select>
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" (click)="atualizar()" data-dismiss="modal">Atualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
